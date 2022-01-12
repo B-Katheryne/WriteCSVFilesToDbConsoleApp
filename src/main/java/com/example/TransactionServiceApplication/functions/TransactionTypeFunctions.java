@@ -1,14 +1,12 @@
 package com.example.TransactionServiceApplication.functions;
 
 import com.example.TransactionServiceApplication.Parser;
-import com.example.TransactionServiceApplication.entities.Transaction;
 import com.example.TransactionServiceApplication.entities.TransactionType;
 import com.example.TransactionServiceApplication.services.TransactionTypeService;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 import static org.hibernate.tool.schema.SchemaToolingLogging.LOGGER;
 
@@ -43,19 +41,19 @@ public class TransactionTypeFunctions implements TableFunctions<TransactionTypeS
             e.printStackTrace();
         }
         for (int i = 1; i < strings.size(); i++) {
-            //TransactionTypeService.save(new TransactionType(Integer.parseInt(strings.get(i).get(0)), strings.get(i).get(1)));
+            transactionTypeService.save(new TransactionType(Integer.parseInt(strings.get(i).get(0)), strings.get(i).get(1)));
         }
 
     }
 
     public void parseToCsv(TransactionTypeService transactionTypeService) {
-        /*
+
         String[] headers = {"tr_type", "tr_description"};
         try {
-            Parser.writeTypeToCSV(getPath(), headers, TransactionTypeService.findAll());
+            Parser.writeTypeToCSV(getPath(), headers, transactionTypeService.findAll());
         } catch (IOException e) {
             e.printStackTrace();
-        } */
+        }
 
     }
 
