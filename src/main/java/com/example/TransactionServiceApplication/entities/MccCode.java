@@ -42,7 +42,7 @@ public class MccCode {
     @Override
     public String toString() {
         return MessageFormat.format(
-                "Transaction mcc code[tr_type = {0}, tr_description = {1}]",
+                "Transaction mcc code[mcc_code = {0}, mcc_description = {1}]",
                 mcc_code, mcc_description);
     }
 
