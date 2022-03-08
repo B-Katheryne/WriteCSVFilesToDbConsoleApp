@@ -49,7 +49,7 @@ public class TransactionFunctions implements TableFunctions<TransactionService>{
 
     public void showOrderOptions(){
         LOGGER.info(
-                "Enter one of the following numbers:\n" +
+                "\n\nEnter one of the following numbers:\n" +
                         "1: in ascending order by transaction amount\n" +
                         "everything else: in descending order by transaction amount\n\n");
     }
@@ -107,15 +107,15 @@ public class TransactionFunctions implements TableFunctions<TransactionService>{
     }
 
     public void getMaxTransactionById(int customer_id, TransactionService transactionService){
-        Double mostSeenAbsoluteAmount;
-        List<Object[]> set = transactionService.mostSeenTransactionAbsoluteAmount(customer_id);
+        Double maxTransaction;
+        List<Object[]> set = transactionService.getMaxTransaction(customer_id);
         if (set.isEmpty()){
             System.out.println("The customer_id does not exist");
         }
         for (Object[] object : set){
-            mostSeenAbsoluteAmount = (Double) object[0];
+            maxTransaction = (Double) object[0];
             System.out.println("Customer_id: " + customer_id
-                    + "\n" + "Transaction amount: " + mostSeenAbsoluteAmount + "\n\n");
+                    + "\n" + "Transaction amount: " + maxTransaction + "\n\n");
 
         }
     }

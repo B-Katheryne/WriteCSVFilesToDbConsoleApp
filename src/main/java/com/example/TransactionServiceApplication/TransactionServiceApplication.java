@@ -30,6 +30,8 @@ public class TransactionServiceApplication implements CommandLineRunner {
 	private final TransactionService transactionService;
 	private final TransactionTypeService transactionTypeService;
 
+	boolean continueToWorkWithChosenTable = true;
+
 	@Autowired
 	public TransactionServiceApplication(GenderService genderService, MccCodeService mcCcodeService,
 							  TransactionService transactionService, TransactionTypeService typeService) {
@@ -48,29 +50,32 @@ public class TransactionServiceApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		while (true) {
+			continueToWorkWithChosenTable = true;
 			String chosenOption;
 
 			ShowAvailableApplicationOptions();
 			chosenOption = getInput();
 
-			switch (chosenOption) {
-				case "1":
-					tableTreatment(chooseTableFunction(), new GenderFunctions(genderService));
-					break;
-				case "2":
-					tableTreatment(chooseTableFunction(), new MccCodeFunctions(mccCodeService));
-					break;
-				case "3":
-					tableTreatment(chooseTableFunction(), new TransactionTypeFunctions(transactionTypeService));
-					break;
-				case "4":
-					tableTreatment(chooseTableFunction(), new TransactionFunctions(transactionService));
-					break;
-				case "5":
-					specialFunctionsTreatment(chooseSpecialFunction());
-					break;
-				default:
-					exit(0);
+			while(continueToWorkWithChosenTable) {
+				switch (chosenOption) {
+					case "1":
+						tableTreatment(chooseTableFunction(), new GenderFunctions(genderService));
+						break;
+					case "2":
+						tableTreatment(chooseTableFunction(), new MccCodeFunctions(mccCodeService));
+						break;
+					case "3":
+						tableTreatment(chooseTableFunction(), new TransactionTypeFunctions(transactionTypeService));
+						break;
+					case "4":
+						tableTreatment(chooseTableFunction(), new TransactionFunctions(transactionService));
+						break;
+					case "5":
+						specialFunctionsTreatment(chooseSpecialFunction());
+						break;
+					default:
+						exit(0);
+				}
 			}
 		}
 
@@ -83,19 +88,19 @@ public class TransactionServiceApplication implements CommandLineRunner {
 	}
 
 	public void ShowAvailableApplicationOptions(){
-		LOGGER.info("Welcome to Transaction Service Application!\n" +
+		LOGGER.info("\n\nWelcome to Transaction Service Application!\n" +
 				"Enter one of the following numbers to choose the table you'll be working with:\n" +
 				"1: gender_train\n" +
 				"2: tr_mcc_codes\n" +
 				"3: tr_types\n" +
 				"4: transactions\n" +
-				"5: watch special functions" +
+				"5: watch special functions\n" +
 				"everything else: to end the suffering by finishing the application's work\n\n");
 	}
 
 	public void showSpecialFunctions(){
 		LOGGER.info(
-				"Enter one of the following numbers:\n" +
+				"\n\nEnter one of the following numbers:\n" +
 						"1: find the largest transaction amount by id\n" +
 						"2: find the most seen transaction absolute amount by id\n\n");
 
@@ -103,10 +108,11 @@ public class TransactionServiceApplication implements CommandLineRunner {
 
 	public void showFunctionsForTable(){
 		LOGGER.info(
-				"Enter one of the following numbers:\n" +
+				"\n\nEnter one of the following numbers:\n" +
 						"1: look through the table\n" +
 						"2: parse CSV file to the database\n" +
-						"3: parse the table from the database into CSV file\n\n");
+						"3: parse the table from the database into CSV file\n" +
+						"everything else: choose another table\n\n");
 	}
 
 	public String chooseTableFunction(){
@@ -133,14 +139,10 @@ public class TransactionServiceApplication implements CommandLineRunner {
 				tableFunctions.parseToCsv(tableFunctions.getService());
 				break;
 			default:
-				exit(0);
+				continueToWorkWithChosenTable = false;
 		}
-		returnToStart();
 	}
 
-	public void returnToStart(){
-		System.out.println("Press anything to return to start");
-	}
 
 	public void specialFunctionsTreatment(String input){
 		switch (input){
@@ -154,7 +156,7 @@ public class TransactionServiceApplication implements CommandLineRunner {
 	}
 
 	public int getId(){
-		LOGGER.info("Type id:");
+		LOGGER.info("\n\nType id:");
 		String id = getInput();
 		return Integer.parseInt(id);
 	}
