@@ -102,7 +102,8 @@ public class TransactionServiceApplication implements CommandLineRunner {
 		LOGGER.info(
 				"\n\nEnter one of the following numbers:\n" +
 						"1: find the largest transaction amount by id\n" +
-						"2: find the most seen transaction absolute amount by id\n\n");
+						"2: find the most seen transaction absolute amount by id\n" +
+						"everything else: return to the start menu\n\n");
 
 	}
 
@@ -152,6 +153,8 @@ public class TransactionServiceApplication implements CommandLineRunner {
 			case "2":
 				mostSeenAbsoluteAmountById();
 				break;
+			default:
+				continueToWorkWithChosenTable = false;
 		}
 	}
 
